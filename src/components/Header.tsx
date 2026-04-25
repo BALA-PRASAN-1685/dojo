@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import logo from "@/assets/samurai-logo.png";
+import logo from "@/assets/dojo-logo.png";
 
 const links = [
   { to: "/walk", label: "Walk" },
@@ -17,13 +17,13 @@ export function Header() {
         <Link to="/" className="flex items-center gap-3 group">
           <img
             src={logo}
-            alt="Samurai"
+            alt="Dojo"
             width={36}
             height={36}
             className="opacity-90 group-hover:opacity-100 transition-opacity"
           />
           <span className="font-display text-2xl tracking-wide text-bone">
-            SAMURAI
+            DOJO
           </span>
         </Link>
         <nav className="hidden md:flex items-center gap-10">

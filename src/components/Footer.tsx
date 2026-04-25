@@ -5,7 +5,7 @@ export function Footer() {
     <footer className="border-t border-border/40 mt-32">
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
         <p className="font-display text-xl text-bone">
-          SAMURAI <span className="text-gold">×</span> The Way of the Modern Man
+          DOJO <span className="text-gold">×</span> The Way of the Modern Man
         </p>
         <div className="flex gap-8 text-xs tracking-luxe text-muted-foreground">
           <Link to="/walk" className="hover:text-gold transition-colors">Walk</Link>
