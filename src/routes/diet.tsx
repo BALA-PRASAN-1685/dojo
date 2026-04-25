@@ -4,13 +4,13 @@ import { AnalyzerPage } from "@/components/AnalyzerPage";
 export const Route = createFileRoute("/diet")({
   head: () => ({
     meta: [
-      { title: "Diet Strategy — SAMURAI" },
+      { title: "Diet Strategy — DOJO" },
       {
         name: "description",
         content:
           "Targets, macros, a day on the plate, training-day vs rest-day rhythm. Built for the look, energy, and edge you want.",
       },
-      { property: "og:title", content: "Diet Strategy — SAMURAI" },
+      { property: "og:title", content: "Diet Strategy — DOJO" },
       {
         property: "og:description",
         content: "AI nutrition strategist for the modern man.",

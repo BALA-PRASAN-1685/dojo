@@ -37,12 +37,14 @@ export function AnalyzerPage({
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<string | null>(null);
+  const [resultImage, setResultImage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const submit = async () => {
     setLoading(true);
     setError(null);
     setResult(null);
+    setResultImage(null);
     try {
       const res = await adviseFn({
         data: {
@@ -52,8 +54,10 @@ export function AnalyzerPage({
           modelImage: modelImage ?? undefined,
         },
       });
-      if (res.ok) setResult(res.content);
-      else setError(res.error);
+      if (res.ok) {
+        setResult(res.content);
+        setResultImage(res.imageUrl ?? null);
+      } else setError(res.error);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong.");
     } finally {
@@ -160,7 +164,22 @@ export function AnalyzerPage({
       )}
 
       {result && (
-        <div className="animate-fade-up">
+        <div className="animate-fade-up space-y-12">
+          {resultImage && (
+            <figure className="luxe-card overflow-hidden">
+              <div className="relative aspect-[4/5] md:aspect-[16/10] bg-secondary">
+                <img
+                  src={resultImage}
+                  alt="Visual recommendation from the master"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-background/90 to-transparent">
+                  <p className="text-xs tracking-luxe text-gold">The Vision</p>
+                  <p className="font-display text-lg text-bone">Your prescribed look, rendered.</p>
+                </div>
+              </div>
+            </figure>
+          )}
           {mode === "walk" ? <WalkSteps content={result} /> : <Markdown content={result} />}
         </div>
       )}

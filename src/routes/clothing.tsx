@@ -4,13 +4,13 @@ import { AnalyzerPage } from "@/components/AnalyzerPage";
 export const Route = createFileRoute("/clothing")({
   head: () => ({
     meta: [
-      { title: "Clothing & Style — SAMURAI" },
+      { title: "Clothing & Style — DOJO" },
       {
         name: "description",
         content:
           "Decode any reference outfit and rebuild it for your body. Tailored, smart-casual, weekend variations.",
       },
-      { property: "og:title", content: "Clothing & Style — SAMURAI" },
+      { property: "og:title", content: "Clothing & Style — DOJO" },
       {
         property: "og:description",
         content: "AI Savile Row stylist. Wear what suits you, with editorial taste.",

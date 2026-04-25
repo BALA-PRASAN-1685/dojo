@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import hero from "@/assets/hero-walk.jpg";
-import logo from "@/assets/samurai-logo.png";
+import logo from "@/assets/dojo-logo.png";
 import { ArrowUpRight, Footprints, Scissors, Shirt, Droplets, Apple } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "SAMURAI — The Way of the Modern Man" },
+      { title: "DOJO — The Way of the Modern Man" },
       {
         name: "description",
         content:

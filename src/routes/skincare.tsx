@@ -4,13 +4,13 @@ import { AnalyzerPage } from "@/components/AnalyzerPage";
 export const Route = createFileRoute("/skincare")({
   head: () => ({
     meta: [
-      { title: "Skincare Ritual — SAMURAI" },
+      { title: "Skincare Ritual — DOJO" },
       {
         name: "description",
         content:
           "A morning and evening ritual built around your skin. Active ingredients, products, lifestyle levers.",
       },
-      { property: "og:title", content: "Skincare Ritual — SAMURAI" },
+      { property: "og:title", content: "Skincare Ritual — DOJO" },
       {
         property: "og:description",
         content: "AI skincare advisor. Look like you sleep eight hours and drink water.",

@@ -32,14 +32,14 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "SAMURAI — The Way of the Modern Man" },
+      { title: "DOJO — The Way of the Modern Man" },
       {
         name: "description",
         content:
           "AI personal style master. Walk like a model, cut your hair to suit you, dress with intention, refine your skin, command your diet.",
       },
-      { name: "author", content: "Samurai" },
-      { property: "og:title", content: "SAMURAI — The Way of the Modern Man" },
+      { name: "author", content: "Dojo" },
+      { property: "og:title", content: "DOJO — The Way of the Modern Man" },
       {
         property: "og:description",
         content: "AI walk coach, hair, style, skincare and diet advisor for the modern man.",
