@@ -11,7 +11,7 @@ interface AdviseInput {
 }
 
 const SYSTEM_PROMPTS: Record<Mode, string> = {
-  walk: `You are SAMURAI, a world-class movement coach and runway choreographer for elite men.
+  walk: `You are DOJO, a world-class movement coach and runway choreographer for elite men.
 The user has uploaded a photo/frame of themselves and a reference photo/frame of a model whose walk they want to emulate.
 Analyze posture, gait, foot placement, hip rotation, shoulder carriage, head alignment, arm swing, and tempo.
 Then produce an actionable training program.
@@ -37,7 +37,7 @@ One paragraph on cadence, BPM if useful, and breathing.
 ## Daily Practice
 Bullet list of 4-6 micro-drills the user can do anywhere.`,
 
-  haircut: `You are SAMURAI, a master barber and editorial hair stylist.
+  haircut: `You are DOJO, a master barber and editorial hair stylist.
 The user uploaded their photo and a reference photo of a haircut they admire.
 Assess the user's face shape, hair type, hairline, and density.
 Decide if the reference cut suits them. If not, recommend a tailored alternative.
@@ -62,7 +62,7 @@ A copy-paste paragraph the user can show their barber, including clipper guards,
 ## Styling & Products
 3-5 products and a 60-second daily styling routine.`,
 
-  clothing: `You are SAMURAI, a Savile Row trained personal stylist with editorial taste.
+  clothing: `You are DOJO, a Savile Row trained personal stylist with editorial taste.
 The user uploaded their photo and a reference photo of a look they admire.
 Read their build, coloring, and proportions. Decode the reference look. Tell them how to wear that style with their body.
 
@@ -86,7 +86,7 @@ Smart-casual, formal, and weekend versions of the same energy.
 ## Capsule Additions
 4-6 wardrobe pieces to make this style sustainable long-term.`,
 
-  skincare: `You are SAMURAI, a luxury men's skincare advisor blending dermatology fundamentals with editorial polish.
+  skincare: `You are DOJO, a luxury men's skincare advisor blending dermatology fundamentals with editorial polish.
 Use the user's photo if provided to read skin condition (texture, tone, oiliness, concerns) — otherwise rely on what they describe.
 
 Respond in Markdown:
@@ -109,7 +109,7 @@ Sleep, sun, water, stress — concrete habits.
 ## Watch For
 Things to avoid (over-exfoliation, fragrance, etc.).`,
 
-  diet: `You are SAMURAI, an elite nutrition strategist for men who want to look, move, and feel sharp.
+  diet: `You are DOJO, an elite nutrition strategist for men who want to look, move, and feel sharp.
 Build a precise plan from what the user shares (goals, build, activity, restrictions).
 
 Respond in Markdown:
@@ -132,6 +132,68 @@ Breakfast, lunch, dinner, 2 snacks — example meals with portions.
 ## Weekly Rhythm
 How to structure training-day vs rest-day eating, plus one earned indulgence.`,
 };
+
+// Image generation prompts per mode — turns the textual advice into a visual.
+function buildImagePrompt(mode: Mode, advice: string): string {
+  // Trim advice to keep prompt size sane
+  const trimmed = advice.length > 2500 ? advice.slice(0, 2500) : advice;
+
+  switch (mode) {
+    case "walk":
+      return `Editorial fashion photograph, full-body, of a man walking with the exact posture, cadence and silhouette prescribed below. Cinematic high-end magazine lighting, shallow depth of field, neutral architectural background, ink-black and bone cream palette with subtle antique gold rim light. Photorealistic. No text, no logos, no watermarks.
+
+Prescribed walk:
+${trimmed}`;
+    case "haircut":
+      return `Editorial barbershop portrait, head-and-shoulders, of a man wearing the exact haircut prescribed below. Sharp studio lighting, neutral grey-bone backdrop, slight side angle to show the cut's shape and fade, photorealistic, magazine quality. No text, no logos, no watermarks.
+
+Prescribed cut:
+${trimmed}`;
+    case "clothing":
+      return `Editorial fashion full-body photograph of a man wearing the EXACT outfit prescribed below — fabric, fit, color, footwear, accessories. Quiet luxury styling, neutral architectural studio, soft directional light, photorealistic, magazine cover quality. No text, no logos, no watermarks.
+
+Prescribed outfit:
+${trimmed}`;
+    case "skincare":
+      return `Luxury still-life flat lay of the exact skincare products and routine prescribed below. Arrange the products on a stone or bone-cream surface with one fresh botanical, soft top-down light, antique gold accent, editorial magazine style. Photorealistic. Render real-looking product bottles with NO readable brand text, NO logos, NO watermarks.
+
+Prescribed routine:
+${trimmed}`;
+    case "diet":
+      return `Luxury overhead food photograph showing one full day of meals exactly as prescribed below — breakfast, lunch, dinner, and snacks plated together on linen and ceramic. Natural light, editorial cookbook style, abundant but elegant, photorealistic. No text, no logos, no watermarks.
+
+Prescribed plate:
+${trimmed}`;
+  }
+}
+
+async function generateImage(apiKey: string, prompt: string): Promise<string | null> {
+  try {
+    const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash-image",
+        messages: [{ role: "user", content: prompt }],
+        modalities: ["image", "text"],
+      }),
+    });
+    if (!res.ok) {
+      console.error("Image gen error", res.status, await res.text());
+      return null;
+    }
+    const json = await res.json();
+    const url: string | undefined =
+      json?.choices?.[0]?.message?.images?.[0]?.image_url?.url;
+    return url ?? null;
+  } catch (e) {
+    console.error("Image gen exception", e);
+    return null;
+  }
+}
 
 export const advise = createServerFn({ method: "POST" })
   .inputValidator((input: AdviseInput) => {
@@ -201,7 +263,12 @@ export const advise = createServerFn({ method: "POST" })
       const json = await res.json();
       const content: string = json?.choices?.[0]?.message?.content ?? "";
       if (!content) return { ok: false as const, error: "Empty response from AI." };
-      return { ok: true as const, content };
+
+      // Generate a visual recommendation in parallel-ish (after we have text)
+      const imagePrompt = buildImagePrompt(data.mode, content);
+      const imageUrl = await generateImage(apiKey, imagePrompt);
+
+      return { ok: true as const, content, imageUrl };
     } catch (e) {
       console.error("advise error", e);
       return { ok: false as const, error: "Network error reaching AI service." };

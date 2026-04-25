@@ -37,12 +37,14 @@ export function AnalyzerPage({
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<string | null>(null);
+  const [resultImage, setResultImage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const submit = async () => {
     setLoading(true);
     setError(null);
     setResult(null);
+    setResultImage(null);
     try {
       const res = await adviseFn({
         data: {
@@ -52,8 +54,10 @@ export function AnalyzerPage({
           modelImage: modelImage ?? undefined,
         },
       });
-      if (res.ok) setResult(res.content);
-      else setError(res.error);
+      if (res.ok) {
+        setResult(res.content);
+        setResultImage(res.imageUrl ?? null);
+      } else setError(res.error);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Something went wrong.");
     } finally {
