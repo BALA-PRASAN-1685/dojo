@@ -4,13 +4,13 @@ import { AnalyzerPage } from "@/components/AnalyzerPage";
 export const Route = createFileRoute("/haircut")({
   head: () => ({
     meta: [
-      { title: "Haircut Consultation — SAMURAI" },
+      { title: "Haircut Consultation — DOJO" },
       {
         name: "description",
         content:
           "Show your face and a reference haircut. Discover whether it suits you and receive a tailored prescription plus a brief for your barber.",
       },
-      { property: "og:title", content: "Haircut Consultation — SAMURAI" },
+      { property: "og:title", content: "Haircut Consultation — DOJO" },
       {
         property: "og:description",
         content: "AI hair stylist. Find the cut that frames your face.",

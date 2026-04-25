@@ -4,13 +4,13 @@ import { AnalyzerPage } from "@/components/AnalyzerPage";
 export const Route = createFileRoute("/walk")({
   head: () => ({
     meta: [
-      { title: "Walk Analysis — SAMURAI" },
+      { title: "Walk Analysis — DOJO" },
       {
         name: "description",
         content:
           "Upload your walk and a model's walk. Get an AI 8-step animated breakdown to refine your gait, posture, and presence.",
       },
-      { property: "og:title", content: "Walk Analysis — SAMURAI" },
+      { property: "og:title", content: "Walk Analysis — DOJO" },
       {
         property: "og:description",
         content: "AI walk coach. Compare your stride to any model's and receive an 8-step program.",
