@@ -9,8 +9,38 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WalkRouteImport } from './routes/walk'
+import { Route as SkincareRouteImport } from './routes/skincare'
+import { Route as HaircutRouteImport } from './routes/haircut'
+import { Route as DietRouteImport } from './routes/diet'
+import { Route as ClothingRouteImport } from './routes/clothing'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WalkRoute = WalkRouteImport.update({
+  id: '/walk',
+  path: '/walk',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SkincareRoute = SkincareRouteImport.update({
+  id: '/skincare',
+  path: '/skincare',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HaircutRoute = HaircutRouteImport.update({
+  id: '/haircut',
+  path: '/haircut',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DietRoute = DietRouteImport.update({
+  id: '/diet',
+  path: '/diet',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClothingRoute = ClothingRouteImport.update({
+  id: '/clothing',
+  path: '/clothing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +49,90 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/clothing': typeof ClothingRoute
+  '/diet': typeof DietRoute
+  '/haircut': typeof HaircutRoute
+  '/skincare': typeof SkincareRoute
+  '/walk': typeof WalkRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/clothing': typeof ClothingRoute
+  '/diet': typeof DietRoute
+  '/haircut': typeof HaircutRoute
+  '/skincare': typeof SkincareRoute
+  '/walk': typeof WalkRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/clothing': typeof ClothingRoute
+  '/diet': typeof DietRoute
+  '/haircut': typeof HaircutRoute
+  '/skincare': typeof SkincareRoute
+  '/walk': typeof WalkRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/clothing' | '/diet' | '/haircut' | '/skincare' | '/walk'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/clothing' | '/diet' | '/haircut' | '/skincare' | '/walk'
+  id:
+    | '__root__'
+    | '/'
+    | '/clothing'
+    | '/diet'
+    | '/haircut'
+    | '/skincare'
+    | '/walk'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ClothingRoute: typeof ClothingRoute
+  DietRoute: typeof DietRoute
+  HaircutRoute: typeof HaircutRoute
+  SkincareRoute: typeof SkincareRoute
+  WalkRoute: typeof WalkRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/walk': {
+      id: '/walk'
+      path: '/walk'
+      fullPath: '/walk'
+      preLoaderRoute: typeof WalkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/skincare': {
+      id: '/skincare'
+      path: '/skincare'
+      fullPath: '/skincare'
+      preLoaderRoute: typeof SkincareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/haircut': {
+      id: '/haircut'
+      path: '/haircut'
+      fullPath: '/haircut'
+      preLoaderRoute: typeof HaircutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diet': {
+      id: '/diet'
+      path: '/diet'
+      fullPath: '/diet'
+      preLoaderRoute: typeof DietRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/clothing': {
+      id: '/clothing'
+      path: '/clothing'
+      fullPath: '/clothing'
+      preLoaderRoute: typeof ClothingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,7 +145,21 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ClothingRoute: ClothingRoute,
+  DietRoute: DietRoute,
+  HaircutRoute: HaircutRoute,
+  SkincareRoute: SkincareRoute,
+  WalkRoute: WalkRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
