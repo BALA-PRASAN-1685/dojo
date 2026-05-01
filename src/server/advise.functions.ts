@@ -169,34 +169,44 @@ function buildImagePrompt(mode: Mode, advice: string): string {
   // Trim advice to keep prompt size sane
   const trimmed = advice.length > 2500 ? advice.slice(0, 2500) : advice;
 
+  const PRIVACY = `STRICT PRIVACY RULE: Do NOT depict any specific real person. Use a generic, anonymous male model — face turned away, cropped out of frame, in shadow, or shown from behind. Never attempt to resemble, reconstruct or imagine the user. This image must be a stylistic visualization of the prescription only.`;
+
   switch (mode) {
     case "walk":
-      return `Editorial fashion photograph, full-body, of a man walking with the exact posture, cadence and silhouette prescribed below. Cinematic high-end magazine lighting, shallow depth of field, neutral architectural background, ink-black and bone cream palette with subtle antique gold rim light. Photorealistic. No text, no logos, no watermarks.
+      return `Editorial fashion photograph, full-body, of an anonymous male model walking with the exact posture, cadence and silhouette prescribed below. Show him from behind or in silhouette so the face is not visible. Cinematic high-end magazine lighting, shallow depth of field, neutral architectural background, ink-black and bone cream palette with subtle antique gold rim light. Photorealistic. No text, no logos, no watermarks.
+
+${PRIVACY}
 
 Prescribed walk:
 ${trimmed}`;
     case "haircut":
-      return `Editorial barbershop portrait, head-and-shoulders, of a man wearing the exact haircut prescribed below. Sharp studio lighting, neutral grey-bone backdrop, slight side angle to show the cut's shape and fade, photorealistic, magazine quality. No text, no logos, no watermarks.
+      return `Editorial barbershop portrait of the haircut prescribed below, shown on a faceless mannequin head or an anonymous male model photographed from behind and slight three-quarter angle so the face is hidden. Focus entirely on the cut's shape, length, fade, and texture. Sharp studio lighting, neutral grey-bone backdrop, photorealistic, magazine quality. No text, no logos, no watermarks.
+
+${PRIVACY}
 
 Prescribed cut:
 ${trimmed}`;
     case "clothing":
-      return `Editorial fashion full-body photograph of a man wearing the EXACT outfit prescribed below — fabric, fit, color, footwear, accessories. Quiet luxury styling, neutral architectural studio, soft directional light, photorealistic, magazine cover quality. No text, no logos, no watermarks.
+      return `Editorial fashion flat-lay OR full-body shot on an anonymous male model with the face cropped out of frame, wearing the EXACT outfit prescribed below — fabric, fit, color, footwear, accessories. Quiet luxury styling, neutral architectural studio, soft directional light, photorealistic, magazine cover quality. No text, no logos, no watermarks.
+
+${PRIVACY}
 
 Prescribed outfit:
 ${trimmed}`;
     case "skincare":
-      return `Luxury still-life flat lay of the exact skincare products and routine prescribed below. Arrange the products on a stone or bone-cream surface with one fresh botanical, soft top-down light, antique gold accent, editorial magazine style. Photorealistic. Render real-looking product bottles with NO readable brand text, NO logos, NO watermarks.
+      return `Luxury still-life flat lay of the exact skincare products and routine prescribed below. Arrange the products on a stone or bone-cream surface with one fresh botanical, soft top-down light, antique gold accent, editorial magazine style. Photorealistic. Render real-looking product bottles with NO readable brand text, NO logos, NO watermarks. Do NOT include any people or faces.
 
 Prescribed routine:
 ${trimmed}`;
     case "diet":
-      return `Luxury overhead food photograph showing one full day of meals exactly as prescribed below — breakfast, lunch, dinner, and snacks plated together on linen and ceramic. Natural light, editorial cookbook style, abundant but elegant, photorealistic. No text, no logos, no watermarks.
+      return `Luxury overhead food photograph showing one full day of meals exactly as prescribed below — breakfast, lunch, dinner, and snacks plated together on linen and ceramic. Natural light, editorial cookbook style, abundant but elegant, photorealistic. No people, no faces. No text, no logos, no watermarks.
 
 Prescribed plate:
 ${trimmed}`;
     case "fitness":
-      return `Editorial fitness portrait, three-quarter body, of a man with the exact target physique implied by the program prescribed below — proportions, conditioning level, and athletic build that this program would build. Dark luxury gym or stone studio, dramatic side lighting with antique gold rim, ink-black and bone palette, photorealistic, magazine cover quality. No text, no logos, no watermarks.
+      return `Editorial fitness portrait of an anonymous male model with the target physique implied by the program prescribed below — proportions, conditioning level, and athletic build. Show him from behind, in silhouette, or with the face cropped out of frame. Dark luxury gym or stone studio, dramatic side lighting with antique gold rim, ink-black and bone palette, photorealistic, magazine cover quality. No text, no logos, no watermarks.
+
+${PRIVACY}
 
 Prescribed program:
 ${trimmed}`;
