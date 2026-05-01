@@ -7,6 +7,7 @@ const links = [
   { to: "/clothing", label: "Clothing" },
   { to: "/skincare", label: "Skincare" },
   { to: "/diet", label: "Diet" },
+  { to: "/fitness", label: "Fitness" },
 ] as const;
 
 export function Header() {
