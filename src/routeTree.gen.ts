@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WalkRouteImport } from './routes/walk'
 import { Route as SkincareRouteImport } from './routes/skincare'
 import { Route as HaircutRouteImport } from './routes/haircut'
+import { Route as FitnessRouteImport } from './routes/fitness'
 import { Route as DietRouteImport } from './routes/diet'
 import { Route as ClothingRouteImport } from './routes/clothing'
 import { Route as IndexRouteImport } from './routes/index'
@@ -29,6 +30,11 @@ const SkincareRoute = SkincareRouteImport.update({
 const HaircutRoute = HaircutRouteImport.update({
   id: '/haircut',
   path: '/haircut',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FitnessRoute = FitnessRouteImport.update({
+  id: '/fitness',
+  path: '/fitness',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DietRoute = DietRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/clothing': typeof ClothingRoute
   '/diet': typeof DietRoute
+  '/fitness': typeof FitnessRoute
   '/haircut': typeof HaircutRoute
   '/skincare': typeof SkincareRoute
   '/walk': typeof WalkRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/clothing': typeof ClothingRoute
   '/diet': typeof DietRoute
+  '/fitness': typeof FitnessRoute
   '/haircut': typeof HaircutRoute
   '/skincare': typeof SkincareRoute
   '/walk': typeof WalkRoute
@@ -68,20 +76,36 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/clothing': typeof ClothingRoute
   '/diet': typeof DietRoute
+  '/fitness': typeof FitnessRoute
   '/haircut': typeof HaircutRoute
   '/skincare': typeof SkincareRoute
   '/walk': typeof WalkRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/clothing' | '/diet' | '/haircut' | '/skincare' | '/walk'
+  fullPaths:
+    | '/'
+    | '/clothing'
+    | '/diet'
+    | '/fitness'
+    | '/haircut'
+    | '/skincare'
+    | '/walk'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/clothing' | '/diet' | '/haircut' | '/skincare' | '/walk'
+  to:
+    | '/'
+    | '/clothing'
+    | '/diet'
+    | '/fitness'
+    | '/haircut'
+    | '/skincare'
+    | '/walk'
   id:
     | '__root__'
     | '/'
     | '/clothing'
     | '/diet'
+    | '/fitness'
     | '/haircut'
     | '/skincare'
     | '/walk'
@@ -91,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ClothingRoute: typeof ClothingRoute
   DietRoute: typeof DietRoute
+  FitnessRoute: typeof FitnessRoute
   HaircutRoute: typeof HaircutRoute
   SkincareRoute: typeof SkincareRoute
   WalkRoute: typeof WalkRoute
@@ -117,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/haircut'
       fullPath: '/haircut'
       preLoaderRoute: typeof HaircutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fitness': {
+      id: '/fitness'
+      path: '/fitness'
+      fullPath: '/fitness'
+      preLoaderRoute: typeof FitnessRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/diet': {
@@ -147,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ClothingRoute: ClothingRoute,
   DietRoute: DietRoute,
+  FitnessRoute: FitnessRoute,
   HaircutRoute: HaircutRoute,
   SkincareRoute: SkincareRoute,
   WalkRoute: WalkRoute,

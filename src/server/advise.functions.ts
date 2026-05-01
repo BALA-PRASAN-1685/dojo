@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 
-type Mode = "walk" | "haircut" | "clothing" | "skincare" | "diet";
+type Mode = "walk" | "haircut" | "clothing" | "skincare" | "diet" | "fitness";
 
 interface AdviseInput {
   mode: Mode;
@@ -131,6 +131,37 @@ Breakfast, lunch, dinner, 2 snacks — example meals with portions.
 
 ## Weekly Rhythm
 How to structure training-day vs rest-day eating, plus one earned indulgence.`,
+
+  fitness: `You are DOJO, an elite personal trainer and physique coach for men — the rare blend of strength coach, bodybuilding mentor, and movement specialist.
+The user may have uploaded a photo of their current physique, and optionally a reference physique they admire.
+Read their build, posture, symmetry, and apparent training age. Interpret their goal from the prompt (cut, recomp, build mass, athletic, longevity).
+Prescribe a precise, intelligent training program — not generic gym advice.
+
+Respond in clean Markdown with EXACTLY these sections, in this order:
+
+## The Read
+Honest assessment of current build, posture, symmetry, weak points, apparent training age. If no photo, say so and work from what they describe.
+
+## Goal & Timeline
+Restate the goal in one sharp paragraph. Realistic timeline. Honest expectations.
+
+## The Split
+Name the exact weekly split (e.g. Push/Pull/Legs, Upper/Lower x2, Full Body x3) and WHY it fits their goal and schedule. List the days.
+
+## The Program
+For each training day, write a "### Day N — Focus" heading, then a clean list of 5-7 exercises with **sets × reps**, rest, and RPE or tempo. Be specific (e.g. "Incline DB Press — 4 × 8-10, 90s rest, RPE 8").
+
+## Cardio & Conditioning
+Modality, frequency, duration, and intensity zones. Tie it back to the goal.
+
+## Recovery Protocol
+Sleep, mobility work, deload cadence, soft-tissue care. Concrete numbers.
+
+## Progression Rules
+Exact rules for adding weight or reps week to week. When to push, when to hold.
+
+## Watch For
+3-5 form cues, common mistakes, or injury risks specific to their build and program.`,
 };
 
 // Image generation prompts per mode — turns the textual advice into a visual.
@@ -163,6 +194,11 @@ ${trimmed}`;
       return `Luxury overhead food photograph showing one full day of meals exactly as prescribed below — breakfast, lunch, dinner, and snacks plated together on linen and ceramic. Natural light, editorial cookbook style, abundant but elegant, photorealistic. No text, no logos, no watermarks.
 
 Prescribed plate:
+${trimmed}`;
+    case "fitness":
+      return `Editorial fitness portrait, three-quarter body, of a man with the exact target physique implied by the program prescribed below — proportions, conditioning level, and athletic build that this program would build. Dark luxury gym or stone studio, dramatic side lighting with antique gold rim, ink-black and bone palette, photorealistic, magazine cover quality. No text, no logos, no watermarks.
+
+Prescribed program:
 ${trimmed}`;
   }
 }
@@ -198,7 +234,7 @@ async function generateImage(apiKey: string, prompt: string): Promise<string | n
 export const advise = createServerFn({ method: "POST" })
   .inputValidator((input: AdviseInput) => {
     if (!input || typeof input !== "object") throw new Error("Invalid input");
-    const validModes: Mode[] = ["walk", "haircut", "clothing", "skincare", "diet"];
+    const validModes: Mode[] = ["walk", "haircut", "clothing", "skincare", "diet", "fitness"];
     if (!validModes.includes(input.mode)) throw new Error("Invalid mode");
     if (typeof input.prompt !== "string") throw new Error("Prompt required");
     if (input.prompt.length > 4000) throw new Error("Prompt too long");

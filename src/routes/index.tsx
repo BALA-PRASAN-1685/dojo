@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import hero from "@/assets/hero-walk.jpg";
 import logo from "@/assets/dojo-logo.png";
-import { ArrowUpRight, Footprints, Scissors, Shirt, Droplets, Apple } from "lucide-react";
+import { ArrowUpRight, Footprints, Scissors, Shirt, Droplets, Apple, Dumbbell } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -57,6 +57,14 @@ const disciplines = [
     description:
       "Targets, macros, a day on the plate, training-day vs rest-day rhythm. Eat to look, move, and feel sharp.",
     icon: Apple,
+  },
+  {
+    to: "/fitness",
+    label: "Fitness",
+    title: "Iron & Discipline",
+    description:
+      "Your private trainer. A precise weekly split, every set and rep, cardio, recovery, and the rules to progress — built for the physique you want.",
+    icon: Dumbbell,
   },
 ] as const;
 
@@ -115,10 +123,10 @@ function Home() {
       {/* DISCIPLINES */}
       <section className="max-w-7xl mx-auto px-6 lg:px-12 py-24 lg:py-32">
         <div className="max-w-3xl mb-20 animate-fade-up">
-          <p className="text-xs tracking-luxe text-gold mb-6">Five Disciplines</p>
+          <p className="text-xs tracking-luxe text-gold mb-6">Six Disciplines</p>
           <h2 className="font-display text-5xl md:text-6xl text-bone leading-tight mb-6">
             One master.<br />
-            <em className="italic text-gold/90">Five edges.</em>
+            <em className="italic text-gold/90">Six edges.</em>
           </h2>
           <div className="hairline w-32 mb-6" />
           <p className="text-lg text-muted-foreground font-light leading-relaxed">
