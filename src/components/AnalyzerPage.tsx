@@ -7,7 +7,7 @@ import { WalkSteps } from "./WalkSteps";
 import { Loader2, Sparkles } from "lucide-react";
 
 interface Props {
-  mode: "walk" | "haircut" | "clothing" | "skincare" | "diet";
+  mode: "walk" | "haircut" | "clothing" | "skincare" | "diet" | "fitness";
   title: string;
   kicker: string;
   intro: string;
